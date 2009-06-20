@@ -13,7 +13,7 @@ class Map:
         
         for x in range(0, width):
             for y in range(0, height):
-                self.provinces[self.get_index(x, y)] = Province(x, y)
+                self.provinces[self.get_index(x, y)] = Province(self, x, y)
                 
     
     def get_province(self, x, y):

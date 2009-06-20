@@ -16,6 +16,7 @@ class Map_Test(unittest.TestCase):
         for x in range(0, 2):
             for y in range(0, 4):
                 province = test_map.get_province(x,y)
+                self.assertEqual(province.map, test_map)
                 self.assertEqual(province.x, x)
                 self.assertEqual(province.y, y)
     
