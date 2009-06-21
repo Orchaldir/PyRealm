@@ -1,6 +1,9 @@
 import pyglet
 
 
+from matrix import get_rotation
+
+
 class MapView:
 
     def __init__(self, map, length, space):
@@ -46,21 +49,27 @@ class MapView:
                     
     
     def add_border(self, realm, x, y, direction):
-        if direction is 0:
-            self.batch.add_indexed(4, pyglet.gl.GL_TRIANGLES, self.border_group, 
-                [
-                    0, 1, 2,
-                    0, 2, 3],
-                ('v2f', (
-                    x + self.altitude, y - self.half,
-                    x + self.altitude, y + self.half,
-                    x + self.altitude - self.border, y + self.half,
-                    x + self.altitude - self.border, y - self.half)),
-                ('c3B', (
-                    realm.r, realm.g, realm.b,
-                    realm.r, realm.g, realm.b,
-                    realm.r, realm.g, realm.b,
-                    realm.r, realm.g, realm.b)))
+        rotation = get_rotation(60.0 * direction)    
+        
+        x0, y0 = rotation.transform(self.altitude, -self.half)
+        x1, y1 = rotation.transform(self.altitude,  self.half)
+        x2, y2 = rotation.transform(self.altitude - self.border,  (self.half + self.border * self.half / self.altitude))
+        x3, y3 = rotation.transform(self.altitude - self.border, -(self.half + self.border * self.half / self.altitude))
+        
+        self.batch.add_indexed(4, pyglet.gl.GL_TRIANGLES, self.border_group, 
+            [
+                0, 1, 2,
+                0, 2, 3],
+            ('v2f', (
+                x + x0, y + y0,
+                x + x1, y + y1,
+                x + x2, y + y2,
+                x + x3, y + y3)),
+            ('c3B', (
+                realm.r, realm.g, realm.b,
+                realm.r, realm.g, realm.b,
+                realm.r, realm.g, realm.b,
+                realm.r, realm.g, realm.b)))
     
     def add_province(self, province, x, y):
         self.batch.add_indexed(7, pyglet.gl.GL_TRIANGLES, self.provinces_group, 
@@ -78,7 +87,15 @@ class MapView:
                 x + self.altitude, y - self.half,
                 x, y - self.length,
                 x - self.altitude, y - self.half,
-                x - self.altitude, y + self.half)))
+                x - self.altitude, y + self.half)),
+            ('c3B', (
+                255, 255, 255,
+                255, 255, 255,
+                255, 255, 255,
+                255, 255, 255,
+                255, 255, 255,
+                255, 255, 255,
+                255, 255, 255)))
     
     def draw(self):
         self.batch.draw()

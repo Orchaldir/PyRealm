@@ -15,8 +15,9 @@ if __name__ == '__main__':
     
     realm = Realm(255, 0, 0)
     realm.add_province(gamemap.get_province(2, 2))
+    realm.add_province(gamemap.get_province(2, 3))
     
-    view = MapView(gamemap, 50.0, 2.0)
+    view = MapView(gamemap, 50.0, 5.0)
     
     @window.event
     def on_draw():
