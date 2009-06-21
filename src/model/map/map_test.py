@@ -8,7 +8,7 @@ class Map_Test(unittest.TestCase):
 
     def test_create(self):
         test_map = Map()
-        test_map.create(2, 4)
+        test_map.create(1, 2, 4)
         self.assertEqual(test_map.width, 2)
         self.assertEqual(test_map.height, 4)
         self.assertEqual(len(test_map.provinces), 8)
@@ -17,12 +17,13 @@ class Map_Test(unittest.TestCase):
             for y in range(0, 4):
                 province = test_map.get_province(x,y)
                 self.assertEqual(province.map, test_map)
+                self.assertEqual(province.terrain, 1)
                 self.assertEqual(province.x, x)
                 self.assertEqual(province.y, y)
     
     def test_get_province(self):
         test_map = Map()
-        test_map.create(2, 4)
+        test_map.create(None, 2, 4)
         
         for x in range(0, 2):
             for y in range(0, 4):
@@ -30,7 +31,7 @@ class Map_Test(unittest.TestCase):
     
     def test_get_province_outside(self):
         test_map = Map()
-        test_map.create(2, 4)
+        test_map.create(None, 2, 4)
         
         self.assertEqual(test_map.get_province(-1,0), None)
         self.assertEqual(test_map.get_province(2,0), None)

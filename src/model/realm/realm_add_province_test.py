@@ -9,7 +9,7 @@ class Realm_add_province_Test(unittest.TestCase):
 
     def test_add_province(self):
         test_map = Map()
-        test_map.create(2, 4)        
+        test_map.create(None, 2, 4)        
         realm = Realm()
         
         province = test_map.get_province(0,0)
@@ -26,7 +26,7 @@ class Realm_add_province_Test(unittest.TestCase):
     
     def test_second_time(self):    
         test_map = Map()
-        test_map.create(2, 4)        
+        test_map.create(None, 2, 4)        
         realm = Realm()
         
         province = test_map.get_province(0,0)

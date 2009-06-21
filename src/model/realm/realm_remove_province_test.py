@@ -9,7 +9,7 @@ class Realm_remove_province_Test(unittest.TestCase):
 
     def test_remove_province(self):
         test_map = Map()
-        test_map.create(2, 4)        
+        test_map.create(None, 2, 4)        
         realm = Realm()
         
         province0 = test_map.get_province(0,0)
@@ -30,7 +30,7 @@ class Realm_remove_province_Test(unittest.TestCase):
     
     def test_second_time(self):    
         test_map = Map()
-        test_map.create(2, 4)        
+        test_map.create(None, 2, 4)        
         realm = Realm()
         
         province = test_map.get_province(0,0)
@@ -44,7 +44,7 @@ class Realm_remove_province_Test(unittest.TestCase):
     
     def test_invalid_province(self): 
         test_map = Map()
-        test_map.create(2, 4)    
+        test_map.create(None, 2, 4)    
         realm = Realm()
         
         self.assertFalse(realm.remove_province(None))

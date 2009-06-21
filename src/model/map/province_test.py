@@ -16,7 +16,7 @@ class Province_Test(unittest.TestCase):
     
     def test_get_neighbour(self):
         test_map = Map()
-        test_map.create(3, 4)
+        test_map.create(None, 3, 4)
         
         province = test_map.get_province(1, 1)
         
@@ -40,7 +40,7 @@ class Province_Test(unittest.TestCase):
     
     def test_is_neighbour(self):
         test_map = Map()
-        test_map.create(3, 4)
+        test_map.create(None, 3, 4)
         
         province = test_map.get_province(1, 1)
         

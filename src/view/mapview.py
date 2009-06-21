@@ -33,20 +33,26 @@ class MapView:
         
         self.provinces_group = pyglet.graphics.OrderedGroup(0)
         self.border_group = pyglet.graphics.OrderedGroup(1)
+        
+        self.create_batch()
+    
+    def create_batch(self):
         self.batch = pyglet.graphics.Batch()
         
         for y in range(0, self.map.height):
             for x in range(0, self.map.width):
                 province = self.map.get_province(x, y)
-                self.add_province(province, self.start_x[y % 2] + self.pos_x[x], self.pos_y[y])
+                pos_x = self.start_x[y % 2] + self.pos_x[x]
+                pos_y = self.pos_y[y]
+                
+                self.add_province(province.terrain, pos_x, pos_y)
                 
                 if province.realm is not None:
                     for i in range(6):
                         neighbour = province.get_neighbour(i)
                         
                         if neighbour is None or neighbour.realm is not province.realm:
-                            self.add_border(province.realm, self.start_x[y % 2] + self.pos_x[x], self.pos_y[y], i)
-                    
+                            self.add_border(province.realm, pos_x, pos_y, i)                    
     
     def add_border(self, realm, x, y, direction):
         rotation = get_rotation(60.0 * direction)    
@@ -71,7 +77,7 @@ class MapView:
                 realm.r, realm.g, realm.b,
                 realm.r, realm.g, realm.b)))
     
-    def add_province(self, province, x, y):
+    def add_province(self, terrain, x, y):
         self.batch.add_indexed(7, pyglet.gl.GL_TRIANGLES, self.provinces_group, 
             [
                 1, 0, 2,
@@ -89,13 +95,13 @@ class MapView:
                 x - self.altitude, y - self.half,
                 x - self.altitude, y + self.half)),
             ('c3B', (
-                255, 255, 255,
-                255, 255, 255,
-                255, 255, 255,
-                255, 255, 255,
-                255, 255, 255,
-                255, 255, 255,
-                255, 255, 255)))
+                terrain.r, terrain.g, terrain.b,
+                terrain.r, terrain.g, terrain.b,
+                terrain.r, terrain.g, terrain.b,
+                terrain.r, terrain.g, terrain.b,
+                terrain.r, terrain.g, terrain.b,
+                terrain.r, terrain.g, terrain.b,
+                terrain.r, terrain.g, terrain.b)))
     
     def draw(self):
         self.batch.draw()

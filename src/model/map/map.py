@@ -7,13 +7,13 @@ class Map:
         self.height = 0
         self.provinces = {}
     
-    def create(self, width, height):
+    def create(self, terrain, width, height):
         self.width = width
         self.height = height
         
         for x in range(0, width):
             for y in range(0, height):
-                self.provinces[self.get_index(x, y)] = Province(self, x, y)
+                self.provinces[self.get_index(x, y)] = Province(self, x, y, terrain)
                 
     
     def get_province(self, x, y):

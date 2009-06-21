@@ -5,10 +5,11 @@ class Province:
     neighbours_x = [[1, 0, -1, -1, -1, 0], [1, 1,  0, -1,  0, 1]]
     neighbours_y = [0, 1, 1, 0, -1, -1]
 
-    def __init__(self, map, x, y):
+    def __init__(self, map, x, y, terrain=None):
         self.map = map
         self.x = x
         self.y = y
+        self.terrain = terrain
         self.realm = None
     
     def get_neighbour(self, direction):
