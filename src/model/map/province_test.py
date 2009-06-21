@@ -12,6 +12,7 @@ class Province_Test(unittest.TestCase):
         self.assertEqual(province.map, 1)
         self.assertEqual(province.x, 2)
         self.assertEqual(province.y, 4)
+        self.assertEqual(province.realm, None)
     
     def test_get_neighbour(self):
         test_map = Map()

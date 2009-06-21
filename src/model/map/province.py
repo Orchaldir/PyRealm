@@ -9,6 +9,7 @@ class Province:
         self.map = map
         self.x = x
         self.y = y
+        self.realm = None
     
     def get_neighbour(self, direction):
         if direction not in range(6):

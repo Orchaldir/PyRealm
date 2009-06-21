@@ -3,6 +3,7 @@ from pyglet.gl import *
 
 
 from model.map.map import Map
+from model.realm.realm import Realm
 from view.mapview import MapView
 
 
@@ -11,6 +12,10 @@ if __name__ == '__main__':
     
     gamemap = Map()
     gamemap.create(8, 7)
+    
+    realm = Realm(255, 0, 0)
+    realm.add_province(gamemap.get_province(2, 2))
+    
     view = MapView(gamemap, 50.0, 2.0)
     
     @window.event

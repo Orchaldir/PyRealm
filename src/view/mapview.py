@@ -9,6 +9,7 @@ class MapView:
         self.altitude = 0.866 * length
         self.half = length / 2.0
         self.space = space
+        self.border = 10.0
         
         total_width = (2 * self.map.width + 1) * self.altitude + (self.map.width - 1) * self.space        
         
@@ -27,15 +28,42 @@ class MapView:
         for i in range(0, self.map.height):
             self.pos_y.append(start_y + (1.5 * self.length + self.space) * i)
         
+        self.provinces_group = pyglet.graphics.OrderedGroup(0)
+        self.border_group = pyglet.graphics.OrderedGroup(1)
         self.batch = pyglet.graphics.Batch()
         
         for y in range(0, self.map.height):
             for x in range(0, self.map.width):
                 province = self.map.get_province(x, y)
                 self.add_province(province, self.start_x[y % 2] + self.pos_x[x], self.pos_y[y])
+                
+                if province.realm is not None:
+                    for i in range(6):
+                        neighbour = province.get_neighbour(i)
+                        
+                        if neighbour is None or neighbour.realm is not province.realm:
+                            self.add_border(province.realm, self.start_x[y % 2] + self.pos_x[x], self.pos_y[y], i)
+                    
+    
+    def add_border(self, realm, x, y, direction):
+        if direction is 0:
+            self.batch.add_indexed(4, pyglet.gl.GL_TRIANGLES, self.border_group, 
+                [
+                    0, 1, 2,
+                    0, 2, 3],
+                ('v2f', (
+                    x + self.altitude, y - self.half,
+                    x + self.altitude, y + self.half,
+                    x + self.altitude - self.border, y + self.half,
+                    x + self.altitude - self.border, y - self.half)),
+                ('c3B', (
+                    realm.r, realm.g, realm.b,
+                    realm.r, realm.g, realm.b,
+                    realm.r, realm.g, realm.b,
+                    realm.r, realm.g, realm.b)))
     
     def add_province(self, province, x, y):
-        self.batch.add_indexed(7, pyglet.gl.GL_TRIANGLES, None, 
+        self.batch.add_indexed(7, pyglet.gl.GL_TRIANGLES, self.provinces_group, 
             [
                 1, 0, 2,
                 2, 0, 3,
