@@ -20,13 +20,16 @@ if __name__ == '__main__':
     realm.add_province(gamemap.get_province(2, 2))
     realm.add_province(gamemap.get_province(2, 3))
     
-    view = MapView(gamemap, 50.0, 5.0)
+    view = MapView(gamemap, 50.0, 5.0, 5.0)
     
     @window.event
     def on_draw():
         window.clear()
         glLoadIdentity()
-        glTranslated(400, 200, 0)
         view.draw()
+    
+    @window.event
+    def on_mouse_release(x, y, button, modifiers):
+        province = view.get_province(x, y)
   
     pyglet.app.run()

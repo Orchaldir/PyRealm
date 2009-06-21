@@ -6,18 +6,18 @@ from matrix import get_rotation
 
 class MapView:
 
-    def __init__(self, map, length, space):
+    def __init__(self, map, length, space, border):
         self.map = map
         self.length = length
         self.altitude = 0.866 * length
         self.half = length / 2.0
         self.space = space
-        self.border = 10.0
+        self.border = border
         
         total_width = (2 * self.map.width + 1) * self.altitude + (self.map.width - 1) * self.space        
         
-        start_x = -self.length * (self.map.width - 1)
-        start_y = -self.altitude * (self.map.height - 1) / 2.0
+        start_x = self.altitude + self.space#-self.length * (self.map.width - 1)
+        start_y = self.length + self.space#-self.altitude * (self.map.height - 1) / 2.0
         
         self.start_x = [start_x, start_x + self.altitude]
         
@@ -105,6 +105,24 @@ class MapView:
     
     def draw(self):
         self.batch.draw()
+    
+    def get_province(self, mouse_x, mouse_y):
+        radius = self.altitude**2
+    
+        for y in range(0, self.map.height):
+            for x in range(0, self.map.width):
+                pos_x = self.start_x[y % 2] + self.pos_x[x]
+                pos_y = self.pos_y[y]
+                
+                dx = mouse_x - pos_x
+                dy = mouse_y - pos_y
+                
+                d = dx**2 + dy**2
+                
+                if d < radius:
+                    return self.map.get_province(x, y)                 
+            
+        return None
         
         
         
