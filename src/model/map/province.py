@@ -11,6 +11,18 @@ class Province:
         self.y = y
         self.terrain = terrain
         self.realm = None
+        self.armies = []
+    
+    def add_army(self, army):
+        if not army:
+            return False
+        
+        if army in self.armies:
+            return False
+        
+        self.armies.append(army)
+        
+        return True
     
     def get_neighbour(self, direction):
         if direction not in range(6):
@@ -22,7 +34,7 @@ class Province:
         return self.map.get_province(x, y)
     
     def is_neighbour(self, province):
-        if province is None or self.map is not province.map:
+        if not province or self.map is not province.map:
             return False
         
         row = self.y % 2

@@ -13,11 +13,10 @@ class MapView:
         self.half = length / 2.0
         self.space = space
         self.border = border
+        self.army = 10.0
         
-        total_width = (2 * self.map.width + 1) * self.altitude + (self.map.width - 1) * self.space        
-        
-        start_x = self.altitude + self.space#-self.length * (self.map.width - 1)
-        start_y = self.length + self.space#-self.altitude * (self.map.height - 1) / 2.0
+        start_x = self.altitude + self.space
+        start_y = self.length + self.space
         
         self.start_x = [start_x, start_x + self.altitude]
         
@@ -32,29 +31,56 @@ class MapView:
             self.pos_y.append(start_y + (1.5 * self.length + self.space) * i)
         
         self.provinces_group = pyglet.graphics.OrderedGroup(0)
-        self.border_group = pyglet.graphics.OrderedGroup(1)
+        self.realm_group = pyglet.graphics.OrderedGroup(1)
         
         self.create_batch()
     
     def create_batch(self):
         self.batch = pyglet.graphics.Batch()
         
-        for y in range(0, self.map.height):
-            for x in range(0, self.map.width):
-                province = self.map.get_province(x, y)
-                pos_x = self.start_x[y % 2] + self.pos_x[x]
-                pos_y = self.pos_y[y]
-                
-                self.add_province(province.terrain, pos_x, pos_y)
-                
-                if province.realm is not None:
-                    for i in range(6):
-                        neighbour = province.get_neighbour(i)
-                        
-                        if neighbour is None or neighbour.realm is not province.realm:
-                            self.add_border(province.realm, pos_x, pos_y, i)                    
+        for province in self.map.provinces.itervalues():
+            pos_x, pos_y = self.get_position(province.x, province.y)
+            
+            self.create_province(province.terrain, pos_x, pos_y)
+            
+            if province.armies:
+                i = 0
+                degrees = 360.0 / len(province.armies)
+                for army in province.armies:
+                    self.create_army(army, pos_x, pos_y, i * degrees)
+                    i += 1
+            
+            if province.realm:
+                for i in range(6):
+                    neighbour = province.get_neighbour(i)
+                    
+                    if not neighbour or neighbour.realm is not province.realm:
+                        self.create_border(province.realm, pos_x, pos_y, i)  
     
-    def add_border(self, realm, x, y, direction):
+    def create_army(self, army, x, y, degrees):
+        rotation = get_rotation(degrees)   
+        
+        x0, y0 = rotation.transform((self.altitude + self.army) / 2.0, -self.army / 2.0)
+        x1, y1 = rotation.transform((self.altitude + self.army) / 2.0,  self.army / 2.0)
+        x2, y2 = rotation.transform((self.altitude - self.army) / 2.0,  self.army / 2.0)
+        x3, y3 = rotation.transform((self.altitude - self.army) / 2.0, -self.army / 2.0)
+        
+        self.batch.add_indexed(4, pyglet.gl.GL_TRIANGLES, self.realm_group, 
+            [
+                0, 1, 2,
+                0, 2, 3],
+            ('v2f', (
+                x + x0, y + y0,
+                x + x1, y + y1,
+                x + x2, y + y2,
+                x + x3, y + y3)),
+            ('c3B', (
+                army.realm.r, army.realm.g, army.realm.b,
+                army.realm.r, army.realm.g, army.realm.b,
+                army.realm.r, army.realm.g, army.realm.b,
+                army.realm.r, army.realm.g, army.realm.b)))                 
+    
+    def create_border(self, realm, x, y, direction):
         rotation = get_rotation(60.0 * direction)    
         
         x0, y0 = rotation.transform(self.altitude, -self.half)
@@ -62,7 +88,7 @@ class MapView:
         x2, y2 = rotation.transform(self.altitude - self.border,  (self.half + self.border * self.half / self.altitude))
         x3, y3 = rotation.transform(self.altitude - self.border, -(self.half + self.border * self.half / self.altitude))
         
-        self.batch.add_indexed(4, pyglet.gl.GL_TRIANGLES, self.border_group, 
+        self.batch.add_indexed(4, pyglet.gl.GL_TRIANGLES, self.realm_group, 
             [
                 0, 1, 2,
                 0, 2, 3],
@@ -77,7 +103,7 @@ class MapView:
                 realm.r, realm.g, realm.b,
                 realm.r, realm.g, realm.b)))
     
-    def add_province(self, terrain, x, y):
+    def create_province(self, terrain, x, y):
         self.batch.add_indexed(7, pyglet.gl.GL_TRIANGLES, self.provinces_group, 
             [
                 1, 0, 2,
@@ -101,7 +127,7 @@ class MapView:
                 terrain.r, terrain.g, terrain.b,
                 terrain.r, terrain.g, terrain.b,
                 terrain.r, terrain.g, terrain.b,
-                terrain.r, terrain.g, terrain.b)))
+                terrain.r, terrain.g, terrain.b)))                
     
     def draw(self):
         self.batch.draw()
@@ -111,18 +137,43 @@ class MapView:
     
         for y in range(0, self.map.height):
             for x in range(0, self.map.width):
-                pos_x = self.start_x[y % 2] + self.pos_x[x]
-                pos_y = self.pos_y[y]
+                pos_x, pos_y = self.get_position(x, y)
                 
                 dx = mouse_x - pos_x
                 dy = mouse_y - pos_y
                 
-                d = dx**2 + dy**2
+                distance = dx**2 + dy**2
                 
-                if d < radius:
-                    return self.map.get_province(x, y)                 
+                if distance >= radius:
+                    continue
+                    
+                province = self.map.get_province(x, y)    
+                
+                if not province.armies:
+                    return province
+                
+                i = 0
+                degrees = 360.0 / len(province.armies)
+                
+                for army in province.armies:
+                    if self.get_army(dx, dy, i * degrees):
+                        return army
+                    i += 1                
+                
+                return province
             
         return None
+    
+    def get_army(self, x, y, degrees):
+        rotation = get_rotation(degrees)   
+        
+        cx, cy = rotation.transform(self.altitude / 2.0, 0.0)
+        distance = (x - cx)**2 + (y -cy)**2
+        
+        return distance < self.army
+    
+    def get_position(self, x, y):
+        return self.start_x[y % 2] + self.pos_x[x], self.pos_y[y]
         
         
         

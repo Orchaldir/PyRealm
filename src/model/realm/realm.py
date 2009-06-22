@@ -9,10 +9,10 @@ class Realm:
         self.provinces = []
     
     def add_province(self, province):
-        if province is None:
+        if not province:
             return False
         
-        if province.realm is not None:
+        if province.realm:
             return False
         
         if province in self.provinces:
@@ -24,7 +24,7 @@ class Realm:
         return True
     
     def remove_province(self, province):
-        if province is None:
+        if not province:
             return False
         
         if province not in self.provinces:
