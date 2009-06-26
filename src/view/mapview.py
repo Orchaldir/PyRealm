@@ -1,4 +1,5 @@
 import pyglet
+import math
 
 
 from matrix import get_rotation
@@ -6,14 +7,14 @@ from matrix import get_rotation
 
 class MapView:
 
-    def __init__(self, map, length, space, border):
+    def __init__(self, map, length, space, border, army):
         self.map = map
         self.length = length
         self.altitude = 0.866 * length
         self.half = length / 2.0
         self.space = space
         self.border = border
-        self.army = 10.0
+        self.army = army
         
         start_x = self.altitude + self.space
         start_y = self.length + self.space
@@ -170,7 +171,7 @@ class MapView:
         cx, cy = rotation.transform(self.altitude / 2.0, 0.0)
         distance = (x - cx)**2 + (y -cy)**2
         
-        return distance < self.army
+        return distance < math.sqrt(2.0 * self.army**2)
     
     def get_position(self, x, y):
         return self.start_x[y % 2] + self.pos_x[x], self.pos_y[y]

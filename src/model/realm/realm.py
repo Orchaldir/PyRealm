@@ -9,8 +9,7 @@ class Realm:
         self.provinces = []
     
     def add_province(self, province):
-        if not province:
-            return False
+        assert province, 'Not a province!'
         
         if province.realm:
             return False
@@ -24,8 +23,7 @@ class Realm:
         return True
     
     def remove_province(self, province):
-        if not province:
-            return False
+        assert province, 'Not a province!'
         
         if province not in self.provinces:
             return False

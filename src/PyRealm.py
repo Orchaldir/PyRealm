@@ -4,10 +4,12 @@ from pyglet.gl import *
 
 from model.combat.army import Army
 from model.map.map import Map
+from model.map.province import Province
 from model.map.terrain import Terrain
 from model.realm.realm import Realm
 from view.mapview import MapView
 
+selected_army = None
 
 if __name__ == '__main__':
     window = pyglet.window.Window(800, 600, 'PyRealm 01')
@@ -30,7 +32,7 @@ if __name__ == '__main__':
     gamemap.get_province(2, 2).add_army(army2)
     gamemap.get_province(2, 2).add_army(army3)
     
-    view = MapView(gamemap, 50.0, 5.0, 5.0)
+    view = MapView(gamemap, 50.0, 5.0, 5.0, 15.0)
     
     @window.event
     def on_draw():
@@ -39,7 +41,26 @@ if __name__ == '__main__':
         view.draw()
     
     @window.event
+    def on_mouse_press(x, y, button, modifiers):
+        global selected_army
+        
+        selection = view.get_province(x, y)
+        
+        if isinstance(selection, Army):
+            selected_army = selection
+        else:
+            selected_army = None
+        
+    @window.event
     def on_mouse_release(x, y, button, modifiers):
-        print view.get_province(x, y)
+        global selected_army
+        
+        selection = view.get_province(x, y)
+        
+        if isinstance(selection, Province) and selected_army:
+            selected_army.province.remove_army(selected_army)
+            selection.add_army(selected_army)
+            view.create_batch()
+            
   
     pyglet.app.run()

@@ -14,19 +14,21 @@ class Province:
         self.armies = []
     
     def add_army(self, army):
-        if not army:
-            return False
+        assert army, 'No army!'
         
         if army in self.armies:
             return False
         
+        if army.province:
+            return False
+        
         self.armies.append(army)
+        army.province = self
         
         return True
     
     def get_neighbour(self, direction):
-        if direction not in range(6):
-            return None
+        assert direction in range(6), '%s not a direction!' % (direction)
         
         x = self.x + Province.neighbours_x[self.y % 2][direction]
         y = self.y + Province.neighbours_y[direction]
@@ -34,7 +36,9 @@ class Province:
         return self.map.get_province(x, y)
     
     def is_neighbour(self, province):
-        if not province or self.map is not province.map:
+        assert province, 'Not a province!'
+        
+        if self.map is not province.map:
             return False
         
         row = self.y % 2
@@ -47,3 +51,14 @@ class Province:
                 return True
             
         return False
+    
+    def remove_army(self, army):
+        assert army, 'No army!'
+        
+        if army not in self.armies:
+            return False
+        
+        self.armies.remove(army)
+        army.province = None
+        
+        return True

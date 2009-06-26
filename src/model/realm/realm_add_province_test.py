@@ -5,7 +5,7 @@ from model.map.map import Map
 from model.realm.realm import Realm
 
 
-class Realm_add_province_Test(unittest.TestCase):
+class RealmAddProvinceTest(unittest.TestCase):
 
     def test_add_province(self):
         test_map = Map()
@@ -39,11 +39,12 @@ class Realm_add_province_Test(unittest.TestCase):
     def test_invalid_province(self):    
         realm = Realm()
         
-        self.assertFalse(realm.add_province(None))
+        #self.assertFalse(realm.add_province(None))
+        self.assertRaises(AssertionError, realm.add_province, None)
 
 
 def get_tests():
-    return unittest.makeSuite(Realm_add_province_Test, 'test')
+    return unittest.makeSuite(RealmAddProvinceTest, 'test')
 
 
 if __name__ == "__main__":
