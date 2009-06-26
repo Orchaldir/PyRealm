@@ -1,21 +1,19 @@
 import unittest
 
 
-from model.map.map import Map
+from model.map.province import Province
 from model.realm.realm import Realm
 
 
-class Realm_remove_province_Test(unittest.TestCase):
+class RealmRemoveProvinceTest(unittest.TestCase):
 
     def test_remove_province(self):
-        test_map = Map()
-        test_map.create(None, 2, 4)        
         realm = Realm()
         
-        province0 = test_map.get_province(0,0)
+        province0 = Province(None, 0,0)
         realm.add_province(province0)
         
-        province1 = test_map.get_province(1,0)
+        province1 = Province(None, 1,0)
         realm.add_province(province1)
         
         self.assertTrue(realm.remove_province(province0))        
@@ -29,11 +27,9 @@ class Realm_remove_province_Test(unittest.TestCase):
         self.assertFalse(province1 in realm.provinces)
     
     def test_second_time(self):    
-        test_map = Map()
-        test_map.create(None, 2, 4)        
         realm = Realm()
         
-        province = test_map.get_province(0,0)
+        province = Province(None, 0,0)
         realm.add_province(province)
         
         realm.remove_province(province)
@@ -43,16 +39,13 @@ class Realm_remove_province_Test(unittest.TestCase):
         self.assertFalse(province in realm.provinces)
     
     def test_invalid_province(self): 
-        test_map = Map()
-        test_map.create(None, 2, 4)    
         realm = Realm()
         
-        #self.assertFalse(realm.remove_province(None))
         self.assertRaises(AssertionError, realm.add_province, None)
 
 
 def get_tests():
-    return unittest.makeSuite(Realm_remove_province_Test, 'test')
+    return unittest.makeSuite(RealmRemoveProvinceTest, 'test')
 
 
 if __name__ == "__main__":

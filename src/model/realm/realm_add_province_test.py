@@ -1,35 +1,31 @@
 import unittest
 
 
-from model.map.map import Map
+from model.map.province import Province
 from model.realm.realm import Realm
 
 
 class RealmAddProvinceTest(unittest.TestCase):
 
     def test_add_province(self):
-        test_map = Map()
-        test_map.create(None, 2, 4)        
         realm = Realm()
         
-        province = test_map.get_province(0,0)
+        province = Province(None, 0,0)
         self.assertTrue(realm.add_province(province))
         self.assertEqual(len(realm.provinces), 1)
         self.assertEqual(province.realm, realm)
         self.assertTrue(province in realm.provinces)
         
-        province = test_map.get_province(1,0)
+        province = Province(None, 1,0)
         self.assertTrue(realm.add_province(province))
         self.assertEqual(len(realm.provinces), 2)
         self.assertEqual(province.realm, realm)
         self.assertTrue(province in realm.provinces)
     
     def test_second_time(self):    
-        test_map = Map()
-        test_map.create(None, 2, 4)        
         realm = Realm()
         
-        province = test_map.get_province(0,0)
+        province = Province(None, 0,0)
         self.assertTrue(realm.add_province(province))    
         self.assertFalse(realm.add_province(province))
         self.assertTrue(province in realm.provinces)
@@ -39,7 +35,6 @@ class RealmAddProvinceTest(unittest.TestCase):
     def test_invalid_province(self):    
         realm = Realm()
         
-        #self.assertFalse(realm.add_province(None))
         self.assertRaises(AssertionError, realm.add_province, None)
 
 

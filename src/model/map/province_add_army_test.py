@@ -46,7 +46,6 @@ class ProvinceAddArmyTest(unittest.TestCase):
     def test_invalid_army(self):
         province = Province(None, 2, 4)
         
-        #self.assertFalse(province.add_army(None))
         self.assertRaises(AssertionError, province.add_army, None)
 
 
