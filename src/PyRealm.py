@@ -2,7 +2,8 @@ import pyglet
 from pyglet.gl import *
 
 
-from model.combat.army import Army
+from model.army.army import Army
+from model.army.move import can_move_army, MoveArmy
 from model.map.map import Map
 from model.map.province import Province
 from model.map.terrain import Terrain
@@ -58,9 +59,10 @@ if __name__ == '__main__':
         selection = view.get_province(x, y)
         
         if isinstance(selection, Province) and selected_army:
-            selected_army.province.remove_army(selected_army)
-            selection.add_army(selected_army)
-            view.create_batch()
+            if can_move_army(selected_army, selection):
+                move = MoveArmy(selected_army, selection)
+                move.execute()
+                view.create_batch()
             
   
     pyglet.app.run()

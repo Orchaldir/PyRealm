@@ -1,7 +1,7 @@
 import unittest
 
 
-from model.combat.army import Army
+from model.army.army import Army
 from model.map.province import Province
 
 
