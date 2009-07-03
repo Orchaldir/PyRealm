@@ -14,7 +14,7 @@ class Province:
         self.armies = []
     
     def add_army(self, army):
-        assert army, 'No army!'
+        assert army, 'Invalid army!'
         
         if army in self.armies:
             return False
@@ -36,7 +36,7 @@ class Province:
         return self.map.get_province(x, y)
     
     def is_neighbour(self, province):
-        assert province, 'Not a province!'
+        assert province, 'Invalid province!'
         
         if self.map is not province.map:
             return False
@@ -53,7 +53,7 @@ class Province:
         return False
     
     def remove_army(self, army):
-        assert army, 'No army!'
+        assert army, 'Invalid army!'
         
         if army not in self.armies:
             return False

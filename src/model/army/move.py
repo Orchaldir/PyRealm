@@ -1,8 +1,8 @@
 
 
 def can_move_army(army, province):
-    assert army, 'No army!'
-    assert province, 'No province!'    
+    assert army, 'Invalid army!'
+    assert province, 'Invalid province!'    
     
     if not army.province:
         return False

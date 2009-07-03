@@ -1,3 +1,4 @@
+from model.army.army import Army
 
 
 class Realm:
@@ -6,10 +7,11 @@ class Realm:
         self.r = r
         self.g = g
         self.b = b
+        self.armies = []
         self.provinces = []
     
     def add_province(self, province):
-        assert province, 'Not a province!'
+        assert province, 'Invalid province!'
         
         if province.realm:
             return False
@@ -22,8 +24,21 @@ class Realm:
         
         return True
     
+    def create_army(self, province, size):
+        assert province, 'Invalid province!'
+        assert size > 0, 'Invalid size!'
+        
+        if province not in self.provinces:
+            return None
+        
+        army = Army(self, size)    
+        self.armies.append(army)
+        province.add_army(army)
+        
+        return army
+    
     def remove_province(self, province):
-        assert province, 'Not a province!'
+        assert province, 'Invalid province!'
         
         if province not in self.provinces:
             return False

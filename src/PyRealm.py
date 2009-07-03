@@ -1,8 +1,10 @@
 import pyglet
 from pyglet.gl import *
+from pyglet.window import key
 
 
 from model.army.army import Army
+from model.army.create import can_create_army, CreateArmy
 from model.army.move import can_move_army, MoveArmy
 from model.map.map import Map
 from model.map.province import Province
@@ -11,6 +13,7 @@ from model.realm.realm import Realm
 from view.mapview import MapView
 
 selected_army = None
+selected_province = None
 
 if __name__ == '__main__':
     window = pyglet.window.Window(800, 600, 'PyRealm 01')
@@ -24,15 +27,6 @@ if __name__ == '__main__':
     realm.add_province(gamemap.get_province(2, 2))
     realm.add_province(gamemap.get_province(2, 3))
     
-    army0 = Army(realm, 10)
-    army1 = Army(realm, 10)
-    army2 = Army(realm, 10)
-    army3 = Army(realm, 10)
-    gamemap.get_province(2, 2).add_army(army0)
-    gamemap.get_province(2, 2).add_army(army1)
-    gamemap.get_province(2, 2).add_army(army2)
-    gamemap.get_province(2, 2).add_army(army3)
-    
     view = MapView(gamemap, 50.0, 5.0, 5.0, 15.0)
     
     @window.event
@@ -43,18 +37,19 @@ if __name__ == '__main__':
     
     @window.event
     def on_mouse_press(x, y, button, modifiers):
-        global selected_army
+        global selected_army, selected_province
         
         selection = view.get_province(x, y)
         
+        selected_army = None
+        selected_province = None
+        
         if isinstance(selection, Army):
             selected_army = selection
-        else:
-            selected_army = None
         
     @window.event
     def on_mouse_release(x, y, button, modifiers):
-        global selected_army
+        global selected_army, selected_province
         
         selection = view.get_province(x, y)
         
@@ -63,6 +58,16 @@ if __name__ == '__main__':
                 move = MoveArmy(selected_army, selection)
                 move.execute()
                 view.create_batch()
-            
+        elif isinstance(selection, Province):
+            selected_province = selection
+    
+    @window.event
+    def on_key_release(symbol, modifiers):
+        if symbol == key.C:
+            if selected_province:
+                if can_create_army(realm, selected_province, 1):
+                    create = CreateArmy(realm, selected_province, 1)
+                    create.execute()
+                    view.create_batch()
   
     pyglet.app.run()
