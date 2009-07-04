@@ -12,6 +12,7 @@ import model.map.province_remove_army_test
 import model.realm.realm_add_province_test
 import model.realm.realm_create_army_test
 import model.realm.realm_remove_province_test
+import model.time.time_test
 
 
 if __name__ == "__main__":
@@ -28,6 +29,7 @@ if __name__ == "__main__":
     suites.extend(model.realm.realm_add_province_test.get_tests())    
     suites.extend(model.realm.realm_create_army_test.get_tests())    
     suites.extend(model.realm.realm_remove_province_test.get_tests())
+    suites.extend(model.time.time_test.get_tests())
 
     suite = unittest.TestSuite(suites)
     

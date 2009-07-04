@@ -12,6 +12,7 @@ class Province:
         self.terrain = terrain
         self.realm = None
         self.armies = []
+        self.action = None
     
     def add_army(self, army):
         assert army, 'Invalid army!'

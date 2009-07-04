@@ -10,6 +10,7 @@ from model.map.map import Map
 from model.map.province import Province
 from model.map.terrain import Terrain
 from model.realm.realm import Realm
+from model.time.time import Time
 from view.mapview import MapView
 
 selected_army = None
@@ -20,12 +21,15 @@ if __name__ == '__main__':
     
     terrain0 = Terrain("Plain", 0, 255, 0)
     
+    time = Time()
+    
     gamemap = Map()
     gamemap.create(terrain0, 8, 7)
     
     realm = Realm(255, 0, 0)
     realm.add_province(gamemap.get_province(2, 2))
     realm.add_province(gamemap.get_province(2, 3))
+    time.add_realm(realm)
     
     view = MapView(gamemap, 50.0, 5.0, 5.0, 15.0)
     
@@ -55,9 +59,7 @@ if __name__ == '__main__':
         
         if isinstance(selection, Province) and selected_army:
             if can_move_army(selected_army, selection):
-                move = MoveArmy(selected_army, selection)
-                move.execute()
-                view.create_batch()
+                selected_army.action = MoveArmy(selected_army, selection)
         elif isinstance(selection, Province):
             selected_province = selection
     
@@ -66,8 +68,11 @@ if __name__ == '__main__':
         if symbol == key.C:
             if selected_province:
                 if can_create_army(realm, selected_province, 1):
-                    create = CreateArmy(realm, selected_province, 1)
-                    create.execute()
-                    view.create_batch()
+                    selected_province.action = CreateArmy(realm, selected_province, 1)
+                    
+        elif symbol == key.SPACE:
+            time.tick()
+            view.create_batch()
+            print('Turn={0:03d}'.format(time.turn))
   
     pyglet.app.run()

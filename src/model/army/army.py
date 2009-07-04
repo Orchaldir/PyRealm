@@ -6,3 +6,4 @@ class Army:
         self.realm = realm
         self.size = size
         self.province = None
+        self.action = None
