@@ -6,6 +6,7 @@ from pyglet.window import key
 from model.army.army import Army
 from model.army.create import can_create_army, CreateArmy
 from model.army.move import can_move_army, MoveArmy
+from model.map.create import can_create_province, CreateProvince
 from model.map.map import Map
 from model.map.province import Province
 from model.map.terrain import Terrain
@@ -69,6 +70,9 @@ if __name__ == '__main__':
             if selected_province:
                 if can_create_army(realm, selected_province, 1):
                     selected_province.action = CreateArmy(realm, selected_province, 1)
+            elif selected_army:
+                if can_create_province(selected_army):
+                    selected_army.action = CreateProvince(selected_army)
                     
         elif symbol == key.SPACE:
             time.tick()
