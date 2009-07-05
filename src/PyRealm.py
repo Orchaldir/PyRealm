@@ -20,14 +20,14 @@ selected_province = None
 if __name__ == '__main__':
     window = pyglet.window.Window(800, 600, 'PyRealm 01')
     
-    terrain0 = Terrain("Plain", 0, 255, 0)
+    terrain0 = Terrain("Plain", 0.0, 1.0, 0.0)
     
     time = Time()
     
     gamemap = Map()
     gamemap.create(terrain0, 8, 7)
     
-    realm = Realm(255, 0, 0)
+    realm = Realm(1.0, 0.0, 0.0)
     realm.add_province(gamemap.get_province(2, 2))
     realm.add_province(gamemap.get_province(2, 3))
     time.add_realm(realm)

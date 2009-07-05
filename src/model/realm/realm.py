@@ -3,7 +3,7 @@ from model.army.army import Army
 
 class Realm:
 
-    def __init__(self, r=255, g=255, b=255):
+    def __init__(self, r=1.0, g=1.0, b=1.0):
         self.r = r
         self.g = g
         self.b = b

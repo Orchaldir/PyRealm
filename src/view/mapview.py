@@ -66,6 +66,10 @@ class MapView:
         x2, y2 = rotation.transform((self.altitude - self.army) / 2.0,  self.army / 2.0)
         x3, y3 = rotation.transform((self.altitude - self.army) / 2.0, -self.army / 2.0)
         
+        r = int(army.realm.r * 255)
+        g = int(army.realm.g * 255)
+        b = int(army.realm.b * 255)
+        
         self.batch.add_indexed(4, pyglet.gl.GL_TRIANGLES, self.realm_group, 
             [
                 0, 1, 2,
@@ -76,10 +80,10 @@ class MapView:
                 x + x2, y + y2,
                 x + x3, y + y3)),
             ('c3B', (
-                army.realm.r, army.realm.g, army.realm.b,
-                army.realm.r, army.realm.g, army.realm.b,
-                army.realm.r, army.realm.g, army.realm.b,
-                army.realm.r, army.realm.g, army.realm.b)))                 
+                r, g, b,
+                r, g, b,
+                r, g, b,
+                r, g, b)))                 
     
     def create_border(self, realm, x, y, direction):
         rotation = get_rotation(60.0 * direction)    
@@ -89,6 +93,10 @@ class MapView:
         x2, y2 = rotation.transform(self.altitude - self.border,  (self.half + self.border * self.half / self.altitude))
         x3, y3 = rotation.transform(self.altitude - self.border, -(self.half + self.border * self.half / self.altitude))
         
+        r = int(realm.r * 255)
+        g = int(realm.g * 255)
+        b = int(realm.b * 255)
+        
         self.batch.add_indexed(4, pyglet.gl.GL_TRIANGLES, self.realm_group, 
             [
                 0, 1, 2,
@@ -99,12 +107,16 @@ class MapView:
                 x + x2, y + y2,
                 x + x3, y + y3)),
             ('c3B', (
-                realm.r, realm.g, realm.b,
-                realm.r, realm.g, realm.b,
-                realm.r, realm.g, realm.b,
-                realm.r, realm.g, realm.b)))
+                r, g, b,
+                r, g, b,
+                r, g, b,
+                r, g, b)))
     
     def create_province(self, terrain, x, y):
+        r = int(terrain.r * 255)
+        g = int(terrain.g * 255)
+        b = int(terrain.b * 255)
+        
         self.batch.add_indexed(7, pyglet.gl.GL_TRIANGLES, self.provinces_group, 
             [
                 1, 0, 2,
@@ -122,13 +134,13 @@ class MapView:
                 x - self.altitude, y - self.half,
                 x - self.altitude, y + self.half)),
             ('c3B', (
-                terrain.r, terrain.g, terrain.b,
-                terrain.r, terrain.g, terrain.b,
-                terrain.r, terrain.g, terrain.b,
-                terrain.r, terrain.g, terrain.b,
-                terrain.r, terrain.g, terrain.b,
-                terrain.r, terrain.g, terrain.b,
-                terrain.r, terrain.g, terrain.b)))                
+                r, g, b,
+                r, g, b,
+                r, g, b,
+                r, g, b,
+                r, g, b,
+                r, g, b,
+                r, g, b)))                
     
     def draw(self):
         self.batch.draw()
