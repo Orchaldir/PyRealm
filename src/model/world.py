@@ -1,13 +1,23 @@
+from model.realm.realm import Realm
 
 
-class Time:
+class World:
 
     def __init__(self):
-        self.turn = 0
         self.realms = []
+        self.turn = 0
     
-    def add_realm(self, realm):
+    def create_realm(self, name, r, g, b):
+        realm = Realm(name, r, g, b)
         self.realms.append(realm)
+        
+        return realm
+    
+    def get_realm(self, index):
+        if 0 <= index < len(self.realms):
+            return self.realms[index]
+        
+        return None
     
     def tick(self):
         self.turn += 1

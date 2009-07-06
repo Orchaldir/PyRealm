@@ -3,7 +3,7 @@ import unittest
 
 from model.map.province import Province
 from model.realm.realm import Realm
-from model.time.time import Time
+from model.world import World
 
 
 class Action:
@@ -15,20 +15,19 @@ class Action:
         self.count += 1 
 
 
-class TimeTest(unittest.TestCase):
+class WorldTickTest(unittest.TestCase):
 
     def test_tick(self):
-        time = Time()
-        realm = Realm()        
+        world = World()
+        realm = world.create_realm('Realm0', 1.0, 1.0, 1.0)
         province = Province(None, 0,0)
         action0 = Action()
         province.action = action0
         realm.add_province(province)
-        time.add_realm(realm)
         
-        time.tick()
+        world.tick()
         
-        self.assertEqual(time.turn, 1)
+        self.assertEqual(world.turn, 1)
         self.assertEqual(action0.count, 1)
         self.assertEqual(province.action, None)
         
@@ -36,9 +35,9 @@ class TimeTest(unittest.TestCase):
         action1 = Action()
         army.action = action1
         
-        time.tick()
+        world.tick()
         
-        self.assertEqual(time.turn, 2)
+        self.assertEqual(world.turn, 2)
         self.assertEqual(action0.count, 1)
         self.assertEqual(action1.count, 1)
         self.assertEqual(army.action, None)
@@ -48,7 +47,7 @@ class TimeTest(unittest.TestCase):
 
 
 def get_tests():
-    return unittest.makeSuite(TimeTest, 'test')
+    return unittest.makeSuite(WorldTickTest, 'test')
 
 
 if __name__ == "__main__":
