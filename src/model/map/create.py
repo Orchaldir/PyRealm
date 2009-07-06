@@ -1,8 +1,12 @@
 
 
-def can_create_province(army):
+def can_create_province(realm, army):
+    assert realm, 'Invalid realm!'
     assert army, 'Invalid army!'
     assert army.province, 'Invalid province!'
+    
+    if realm is not army.realm:
+        return False
     
     if army.province.realm:
         return False
@@ -12,7 +16,8 @@ def can_create_province(army):
 
 class CreateProvince:
 
-    def __init__(self, army):
+    def __init__(self, realm, army):
+        self.realm = realm
         self.army = army
     
     def execute(self):

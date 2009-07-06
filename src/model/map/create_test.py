@@ -15,16 +15,34 @@ class CanCreateProvinceTest(unittest.TestCase):
         province = Province(None, 0,0)
         province.add_army(army)
         
-        self.assertTrue(can_create_province(army)) 
+        self.assertTrue(can_create_province(realm, army)) 
     
-    def test_invalid_army(self):     
-        self.assertRaises(AssertionError, can_create_province, None)
+    def test_invalid_army(self):  
+        realm = Realm()      
+        self.assertRaises(AssertionError, can_create_province, realm, None)
     
     def test_invalid_province(self):     
         realm = Realm()        
         army = Army(realm, 1)
         
-        self.assertRaises(AssertionError, can_create_province, army)
+        self.assertRaises(AssertionError, can_create_province, realm, army)
+    
+    def test_invalid_realm(self):     
+        realm = Realm()        
+        army = Army(realm, 1)
+        province = Province(None, 0,0)
+        province.add_army(army)
+        
+        self.assertRaises(AssertionError, can_create_province, None, army)
+    
+    def test_wrong_realm(self):
+        realm0 = Realm()    
+        realm1 = Realm()
+        army = Army(realm0, 10)
+        province = Province(None, 1, 1)
+        province.add_army(army)
+        
+        self.assertFalse(can_create_province(realm1, army))
    
     def test_other_realm(self):     
         realm0 = Realm()
@@ -34,7 +52,7 @@ class CanCreateProvinceTest(unittest.TestCase):
         province.add_army(army)
         realm1.add_province(province)
         
-        self.assertFalse(can_create_province(army)) 
+        self.assertFalse(can_create_province(realm0, army)) 
     
     def test_same_realm(self):     
         realm = Realm()
@@ -43,7 +61,7 @@ class CanCreateProvinceTest(unittest.TestCase):
         province.add_army(army)
         realm.add_province(province)
         
-        self.assertFalse(can_create_province(army)) 
+        self.assertFalse(can_create_province(realm, army)) 
 
 
 class CreateProvinceTest(unittest.TestCase):
@@ -54,7 +72,7 @@ class CreateProvinceTest(unittest.TestCase):
         province = Province(None, 0,0)
         province.add_army(army)
         
-        create = CreateProvince(army)
+        create = CreateProvince(realm, army)
         create.execute()
         
         self.assertEqual(province.realm, realm)

@@ -1,8 +1,12 @@
 
 
-def can_move_army(army, province):
+def can_move_army(realm, army, province):
+    assert realm, 'Invalid realm!'
     assert army, 'Invalid army!'
-    assert province, 'Invalid province!'    
+    assert province, 'Invalid province!'
+    
+    if realm is not army.realm:
+        return False    
     
     if not army.province:
         return False
@@ -12,7 +16,8 @@ def can_move_army(army, province):
 
 class MoveArmy:
 
-    def __init__(self, army, province):
+    def __init__(self, realm, army, province):
+        self.realm = realm
         self.army = army
         self.province = province
     

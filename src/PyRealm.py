@@ -60,13 +60,13 @@ if __name__ == '__main__':
         
     @window.event
     def on_mouse_release(x, y, button, modifiers):
-        global selected_army, selected_province
+        global realm, selected_army, selected_province
         
         selection = view.get_province(x, y)
         
         if isinstance(selection, Province) and selected_army:
-            if can_move_army(selected_army, selection):
-                selected_army.action = MoveArmy(selected_army, selection)
+            if can_move_army(realm, selected_army, selection):
+                selected_army.action = MoveArmy(realm, selected_army, selection)
         elif isinstance(selection, Province):
             selected_province = selection
     
@@ -78,8 +78,8 @@ if __name__ == '__main__':
                 if can_create_army(realm, selected_province, 1):
                     selected_province.action = CreateArmy(realm, selected_province, 1)
             elif selected_army:
-                if can_create_province(selected_army):
-                    selected_army.action = CreateProvince(selected_army)                    
+                if can_create_province(realm, selected_army):
+                    selected_army.action = CreateProvince(realm, selected_army)                    
         elif symbol == key.SPACE:
             realm_index += 1
             realm = world.get_realm(realm_index)
