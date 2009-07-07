@@ -5,6 +5,7 @@ from pyglet.window import key
 
 from model.army.army import Army
 from model.army.create import can_create_army, CreateArmy
+from model.army.increase import can_increase_army, IncreaseArmy
 from model.army.move import can_move_army, MoveArmy
 from model.map.create import can_create_province, CreateProvince
 from model.map.map import Map
@@ -16,6 +17,7 @@ from view.mapview import MapView
 
 selected_army = None
 selected_province = None
+moved_army = None
 realm = None
 realm_index = 0
 
@@ -48,27 +50,33 @@ if __name__ == '__main__':
     
     @window.event
     def on_mouse_press(x, y, button, modifiers):
-        global selected_army, selected_province
+        global moved_army
         
-        selection = view.get_province(x, y)
+        selection = view.get_province(x, y)       
+        
+        moved_army = None        
+        
+        if isinstance(selection, Army):
+            moved_army = selection
+        
+    @window.event
+    def on_mouse_release(x, y, button, modifiers):
+        global realm, selected_army, selected_province, moved_army
         
         selected_army = None
         selected_province = None
         
-        if isinstance(selection, Army):
-            selected_army = selection
-        
-    @window.event
-    def on_mouse_release(x, y, button, modifiers):
-        global realm, selected_army, selected_province
-        
         selection = view.get_province(x, y)
         
-        if isinstance(selection, Province) and selected_army:
-            if can_move_army(realm, selected_army, selection):
-                selected_army.action = MoveArmy(realm, selected_army, selection)
+        if isinstance(selection, Province) and moved_army:
+            if can_move_army(realm, moved_army, selection):
+                moved_army.action = MoveArmy(realm, moved_army, selection)
         elif isinstance(selection, Province):
             selected_province = selection
+            print('Province: Realm={0:s}'.format(selected_province.realm.name if selected_province.realm else 'None'))
+        elif isinstance(selection, Army):
+            selected_army = selection
+            print('Army: Realm={0:s} Size={1:d}'.format(selected_army.realm.name, selected_army.size))
     
     @window.event
     def on_key_release(symbol, modifiers):
@@ -79,7 +87,11 @@ if __name__ == '__main__':
                     selected_province.action = CreateArmy(realm, selected_province, 1)
             elif selected_army:
                 if can_create_province(realm, selected_army):
-                    selected_army.action = CreateProvince(realm, selected_army)                    
+                    selected_army.action = CreateProvince(realm, selected_army)   
+        elif symbol == key.I:
+            if selected_army:
+                if can_increase_army(realm, selected_army):
+                    selected_army.action = IncreaseArmy(realm, selected_army)                    
         elif symbol == key.SPACE:
             realm_index += 1
             realm = world.get_realm(realm_index)

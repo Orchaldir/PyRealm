@@ -2,6 +2,7 @@ import unittest
 
 
 import model.army.create_test
+import model.army.increase_test
 import model.army.move_test
 import model.map.create_test
 import model.map.map_test
@@ -22,6 +23,7 @@ if __name__ == "__main__":
     suites = []
 
     suites.extend(model.army.create_test.get_tests())
+    suites.extend(model.army.increase_test.get_tests())
     suites.extend(model.army.move_test.get_tests())
     suites.extend(model.map.create_test.get_tests())
     suites.extend(model.map.map_test.get_tests())

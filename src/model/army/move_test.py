@@ -95,8 +95,7 @@ class MoveArmyTest(unittest.TestCase):
         self.assertEqual(len(province1.armies), 1)               
         self.assertFalse(army in province0.armies)
         self.assertTrue(army in province1.armies)
-        self.assertEqual(army.province, province1)
-        
+        self.assertEqual(army.province, province1)        
 
 
 def get_tests():
