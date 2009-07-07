@@ -1,6 +1,8 @@
 import unittest
 
 
+import model.army.army_remove_test
+import model.army.battle_test
 import model.army.create_test
 import model.army.increase_test
 import model.army.move_test
@@ -22,6 +24,8 @@ import model.world_tick_test
 if __name__ == "__main__":
     suites = []
 
+    suites.extend(model.army.army_remove_test.get_tests())
+    suites.extend(model.army.battle_test.get_tests())
     suites.extend(model.army.create_test.get_tests())
     suites.extend(model.army.increase_test.get_tests())
     suites.extend(model.army.move_test.get_tests())

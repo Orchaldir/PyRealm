@@ -26,10 +26,10 @@ if __name__ == '__main__':
     
     terrain0 = Terrain("Plain", 0.0, 1.0, 0.0)
     
-    world = World()
-    
     gamemap = Map()
     gamemap.create(terrain0, 3, 3)
+    
+    world = World(gamemap)
     
     realm0 = world.create_realm('Askir', 1.0, 0.0, 0.0)
     realm0.add_province(gamemap.get_province(2, 2))
@@ -73,7 +73,8 @@ if __name__ == '__main__':
                 moved_army.action = MoveArmy(realm, moved_army, selection)
         elif isinstance(selection, Province):
             selected_province = selection
-            print('Province: Realm={0:s}'.format(selected_province.realm.name if selected_province.realm else 'None'))
+            print('Province({0:d},{1:d}): Realm={2:s}'.format(selected_province.x, selected_province.y, 
+                selected_province.realm.name if selected_province.realm else 'None'))
         elif isinstance(selection, Army):
             selected_army = selection
             print('Army: Realm={0:s} Size={1:d}'.format(selected_army.realm.name, selected_army.size))
@@ -99,9 +100,14 @@ if __name__ == '__main__':
             if not realm:
                 realm_index = 0
                 realm = world.get_realm(realm_index)
-                world.tick()
+                result = world.tick()
                 view.create_batch()
                 print('Turn={0:03d}'.format(world.turn))
+                
+                for battle in result.battles:
+                    print('Battle: Province={0:d},{1:d} {2:s} vs {3:s}'.format(battle.province.x, battle.province.y, 
+                        battle.army0.realm.name, battle.army1.realm.name))
+                
                 print('Realm={0:s}:'.format(realm.name))
             else:
                 print('Realm={0:s}:'.format(realm.name))

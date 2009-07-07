@@ -7,3 +7,7 @@ class Army:
         self.size = size
         self.province = None
         self.action = None
+    
+    def remove(self):
+        if self.province:
+            self.province.remove_army(self)
