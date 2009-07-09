@@ -1,5 +1,6 @@
 from model.army.battle import Battle
 from model.realm.realm import Realm
+from utility.color import Color
 
 
 class Result:
@@ -16,7 +17,7 @@ class World:
         self.map = map
     
     def create_realm(self, name, r, g, b):
-        realm = Realm(name, r, g, b)
+        realm = Realm(name, Color(r, g, b))
         self.realms.append(realm)
         
         return realm

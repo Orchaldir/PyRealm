@@ -13,6 +13,7 @@ from model.map.province import Province
 from model.map.terrain import Terrain
 from model.realm.realm import Realm
 from model.world import World
+from utility.color import Color
 from view.mapview import MapView
 
 selected_army = None
@@ -24,7 +25,7 @@ realm_index = 0
 if __name__ == '__main__':
     window = pyglet.window.Window(800, 600, 'PyRealm 01')
     
-    terrain0 = Terrain("Plain", 0.0, 1.0, 0.0)
+    terrain0 = Terrain("Plain", Color(0.0, 1.0, 0.0))
     
     gamemap = Map()
     gamemap.create(terrain0, 3, 3)

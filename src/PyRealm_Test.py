@@ -19,6 +19,7 @@ import model.realm.realm_remove_province_test
 import model.world_create_realm_test
 import model.world_get_realm_test
 import model.world_tick_test
+import utility.color_test
 
 
 if __name__ == "__main__":
@@ -42,6 +43,8 @@ if __name__ == "__main__":
     suites.extend(model.world_create_realm_test.get_tests())
     suites.extend(model.world_get_realm_test.get_tests())
     suites.extend(model.world_tick_test.get_tests())
+    
+    suites.extend(utility.color_test.get_tests())
 
     suite = unittest.TestSuite(suites)
     

@@ -3,11 +3,9 @@ from model.army.army import Army
 
 class Realm:
 
-    def __init__(self, name='Test', r=1.0, g=1.0, b=1.0):
+    def __init__(self, name='Test', color=None):
         self.name = name
-        self.r = r
-        self.g = g
-        self.b = b
+        self.color = color
         self.armies = []
         self.provinces = []
     

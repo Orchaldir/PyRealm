@@ -12,9 +12,9 @@ class WorldCreateRealmTest(unittest.TestCase):
         realm = world.create_realm('Realm0', 0.1, 0.2, 0.3)
         self.assertNotEqual(realm, None)
         self.assertEqual(realm.name, 'Realm0')
-        self.assertEqual(realm.r, 0.1)
-        self.assertEqual(realm.g, 0.2)
-        self.assertEqual(realm.b, 0.3)
+        self.assertEqual(realm.color.get_r(), 0.1)
+        self.assertEqual(realm.color.get_g(), 0.2)
+        self.assertEqual(realm.color.get_b(), 0.3)
         self.assertEqual(len(world.realms), 1)
         self.assertTrue(realm in world.realms)
 

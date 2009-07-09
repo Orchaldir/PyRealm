@@ -66,9 +66,9 @@ class MapView:
         x2, y2 = rotation.transform((self.altitude - self.army) / 2.0,  self.army / 2.0)
         x3, y3 = rotation.transform((self.altitude - self.army) / 2.0, -self.army / 2.0)
         
-        r = int(army.realm.r * 255)
-        g = int(army.realm.g * 255)
-        b = int(army.realm.b * 255)
+        r = army.realm.color.get_int_r()
+        g = army.realm.color.get_int_g()
+        b = army.realm.color.get_int_b()
         
         self.batch.add_indexed(4, pyglet.gl.GL_TRIANGLES, self.realm_group, 
             [
@@ -93,9 +93,9 @@ class MapView:
         x2, y2 = rotation.transform(self.altitude - self.border,  (self.half + self.border * self.half / self.altitude))
         x3, y3 = rotation.transform(self.altitude - self.border, -(self.half + self.border * self.half / self.altitude))
         
-        r = int(realm.r * 255)
-        g = int(realm.g * 255)
-        b = int(realm.b * 255)
+        r = realm.color.get_int_r()
+        g = realm.color.get_int_g()
+        b = realm.color.get_int_b()
         
         self.batch.add_indexed(4, pyglet.gl.GL_TRIANGLES, self.realm_group, 
             [
@@ -113,9 +113,9 @@ class MapView:
                 r, g, b)))
     
     def create_province(self, terrain, x, y):
-        r = int(terrain.r * 255)
-        g = int(terrain.g * 255)
-        b = int(terrain.b * 255)
+        r = terrain.color.get_int_r()
+        g = terrain.color.get_int_g()
+        b = terrain.color.get_int_b()
         
         self.batch.add_indexed(7, pyglet.gl.GL_TRIANGLES, self.provinces_group, 
             [
