@@ -34,7 +34,10 @@ class WorldTickTest(unittest.TestCase):
         self.assertEqual(province.action, None)
         self.assertEqual(len(result.battles), 0)
         
-        army = realm.create_army(province, 1)
+        army = world.create_army(realm)
+        army.size = 1
+        province.add_army(army)
+        
         action1 = Action()
         army.action = action1
         

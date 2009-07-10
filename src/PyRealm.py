@@ -86,7 +86,7 @@ if __name__ == '__main__':
         if symbol == key.C:
             if selected_province:
                 if can_create_army(realm, selected_province, 1):
-                    selected_province.action = CreateArmy(realm, selected_province, 1)
+                    selected_province.action = CreateArmy(world, realm, selected_province, 1)
             elif selected_army:
                 if can_create_province(realm, selected_army):
                     selected_army.action = CreateProvince(realm, selected_army)   

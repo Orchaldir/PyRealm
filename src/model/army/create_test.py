@@ -4,6 +4,7 @@ import unittest
 from model.army.create import can_create_army, CreateArmy
 from model.map.province import Province
 from model.realm.realm import Realm
+from model.world import World
 
 
 class CanCreateArmyTest(unittest.TestCase):
@@ -40,11 +41,12 @@ class CanCreateArmyTest(unittest.TestCase):
 class CreateArmyTest(unittest.TestCase):
 
     def test_create_army(self):
-        realm = Realm()        
+        world = World()
+        realm = world.create_realm('Test', 1.0, 1.0, 1.0)
         province = Province(None, 0,0)
         realm.add_province(province)
         
-        create0 = CreateArmy(realm, province, 1)
+        create0 = CreateArmy(world, realm, province, 1)
         create0.execute()
         
         army0 = create0.army
@@ -57,7 +59,7 @@ class CreateArmyTest(unittest.TestCase):
         self.assertEqual(len(realm.armies), 1)
         self.assertTrue(army0 in realm.armies)
         
-        create1 = CreateArmy(realm, province, 10)
+        create1 = CreateArmy(world, realm, province, 10)
         create1.execute()
         
         army1 = create1.army

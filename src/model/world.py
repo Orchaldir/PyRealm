@@ -1,3 +1,4 @@
+from model.army.army import Army
 from model.army.battle import Battle
 from model.realm.realm import Realm
 from utility.color import Color
@@ -12,10 +13,23 @@ class Result:
 class World:
 
     def __init__(self, map=None):
+        self.armies = []
         self.realms = []
         self.turn = 0
         self.map = map
     
+    def create_army(self, realm):
+        assert realm, 'Invalid realm!'
+        
+        if realm not in self.realms:
+            return None
+        
+        army = Army(realm, 0)    
+        self.armies.append(army)
+        realm.armies.append(army)
+        
+        return army
+        
     def create_realm(self, name, r, g, b):
         realm = Realm(name, Color(r, g, b))
         self.realms.append(realm)

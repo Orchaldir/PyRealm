@@ -23,19 +23,6 @@ class Realm:
         
         return True
     
-    def create_army(self, province, size):
-        assert province, 'Invalid province!'
-        assert size > 0, 'Invalid size!'
-        
-        if province not in self.provinces:
-            return None
-        
-        army = Army(self, size)    
-        self.armies.append(army)
-        province.add_army(army)
-        
-        return army
-    
     def remove_province(self, province):
         assert province, 'Invalid province!'
         

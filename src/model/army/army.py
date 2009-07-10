@@ -2,7 +2,7 @@
 
 class Army:
 
-    def __init__(self, realm, size):
+    def __init__(self, realm, size=0):
         self.realm = realm
         self.size = size
         self.province = None

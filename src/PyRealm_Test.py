@@ -14,8 +14,8 @@ import model.map.province_get_neighbour_test
 import model.map.province_is_neighbour_test
 import model.map.province_remove_army_test
 import model.realm.realm_add_province_test
-import model.realm.realm_create_army_test
 import model.realm.realm_remove_province_test
+import model.world_create_army_test
 import model.world_create_realm_test
 import model.world_get_realm_test
 import model.world_tick_test
@@ -37,9 +37,9 @@ if __name__ == "__main__":
     suites.extend(model.map.province_get_neighbour_test.get_tests())
     suites.extend(model.map.province_is_neighbour_test.get_tests())
     suites.extend(model.map.province_remove_army_test.get_tests())
-    suites.extend(model.realm.realm_add_province_test.get_tests())    
-    suites.extend(model.realm.realm_create_army_test.get_tests())    
+    suites.extend(model.realm.realm_add_province_test.get_tests())   
     suites.extend(model.realm.realm_remove_province_test.get_tests())
+    suites.extend(model.world_create_army_test.get_tests())
     suites.extend(model.world_create_realm_test.get_tests())
     suites.extend(model.world_get_realm_test.get_tests())
     suites.extend(model.world_tick_test.get_tests())
