@@ -15,6 +15,8 @@ class World:
     def __init__(self, map=None):
         self.armies = []
         self.realms = []
+        self.next_army_id = 0
+        self.next_realm_id = 0
         self.turn = 0
         self.map = map
     
@@ -24,14 +26,16 @@ class World:
         if realm not in self.realms:
             return None
         
-        army = Army(realm, 0)    
+        army = Army(self.next_army_id, realm)   
+        self.next_army_id += 1 
         self.armies.append(army)
         realm.armies.append(army)
         
         return army
         
     def create_realm(self, name, r, g, b):
-        realm = Realm(name, Color(r, g, b))
+        realm = Realm(self.next_realm_id, name, Color(r, g, b))
+        self.next_realm_id += 1
         self.realms.append(realm)
         
         return realm

@@ -78,7 +78,7 @@ if __name__ == '__main__':
                 selected_province.realm.name if selected_province.realm else 'None'))
         elif isinstance(selection, Army):
             selected_army = selection
-            print('Army: Realm={0:s} Size={1:d}'.format(selected_army.realm.name, selected_army.size))
+            print('Army: Id={0:d} Realm={1:s} Size={2:d}'.format(selected_army.id, selected_army.realm.name, selected_army.size))
     
     @window.event
     def on_key_release(symbol, modifiers):

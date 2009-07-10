@@ -60,8 +60,10 @@ class WorldTickTest(unittest.TestCase):
         
         province = map.get_province(0, 0)
                 
-        army0 = Army(realm0, 2)
-        army1 = Army(realm1, 1)
+        army0 = Army(0, realm0)
+        army0.size = 2
+        army1 = Army(0, realm1)
+        army1.size = 1
         
         province.add_army(army0)
         province.add_army(army1)

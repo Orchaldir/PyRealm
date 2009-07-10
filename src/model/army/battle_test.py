@@ -10,8 +10,10 @@ from model.realm.realm import Realm
 class BattleTest(unittest.TestCase):
 
     def test_zero_wins(self): 
-        army0 = Army(None, 10)
-        army1 = Army(None, 4)
+        army0 = Army()
+        army0.size = 10
+        army1 = Army()
+        army1.size = 4
         province = Province(None, 1, 1)
         province.add_army(army0)
         province.add_army(army1)
@@ -27,8 +29,10 @@ class BattleTest(unittest.TestCase):
         self.assertFalse(army1 in province.armies)
     
     def test_one_wins(self): 
-        army0 = Army(None, 6)
-        army1 = Army(None, 10)
+        army0 = Army()
+        army0.size = 6
+        army1 = Army()
+        army1.size = 10
         province = Province(None, 1, 1)
         province.add_army(army0)
         province.add_army(army1)
@@ -44,8 +48,10 @@ class BattleTest(unittest.TestCase):
         self.assertTrue(army1 in province.armies)
     
     def test_even(self): 
-        army0 = Army(None, 5)
-        army1 = Army(None, 5)
+        army0 = Army()
+        army0.size = 5
+        army1 = Army()
+        army1.size = 5
         province = Province(None, 1, 1)
         province.add_army(army0)
         province.add_army(army1)
@@ -61,14 +67,14 @@ class BattleTest(unittest.TestCase):
         self.assertFalse(army1 in province.armies)
     
     def test_invalid_army(self): 
-        army = Army(None, 5)
+        army = Army()
         
         self.assertRaises(AssertionError, Battle, army, None)
         self.assertRaises(AssertionError, Battle, None, army)
         self.assertRaises(AssertionError, Battle, None, None)
     
     def test_same_army(self): 
-        army = Army(None, 5)
+        army = Army()
         
         self.assertRaises(AssertionError, Battle, army, army)
            

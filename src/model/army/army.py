@@ -2,9 +2,10 @@
 
 class Army:
 
-    def __init__(self, realm, size=0):
+    def __init__(self, id=0, realm=None):
+        self.id = id
         self.realm = realm
-        self.size = size
+        self.size = 0
         self.province = None
         self.action = None
     

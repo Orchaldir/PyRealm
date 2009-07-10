@@ -8,7 +8,7 @@ from model.map.province import Province
 class ArmyRemoveTest(unittest.TestCase):
 
     def test_remove(self): 
-        army = Army(None)
+        army = Army()
         province = Province(None, 1, 1)
         province.add_army(army)
         

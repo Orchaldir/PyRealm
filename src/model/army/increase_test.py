@@ -10,7 +10,7 @@ class CanIncreaseArmyTest(unittest.TestCase):
 
     def test_can_increase_army(self): 
         realm = Realm()    
-        army = Army(realm, 10)
+        army = Army(0, realm)
         
         self.assertTrue(can_increase_army(realm, army))
     
@@ -21,14 +21,14 @@ class CanIncreaseArmyTest(unittest.TestCase):
     
     def test_invalid_realm(self):
         realm = Realm()    
-        army = Army(realm, 10)
+        army = Army(0, realm)
         
         self.assertRaises(AssertionError, can_increase_army, None, army)
     
     def test_wrong_realm(self):
         realm0 = Realm()    
         realm1 = Realm()
-        army = Army(realm0, 10)
+        army = Army(0, realm0)
         
         self.assertFalse(can_increase_army(realm1, army))   
         
@@ -38,12 +38,12 @@ class IncreaseArmyTest(unittest.TestCase):
 
     def test_move(self):     
         realm = Realm()    
-        army = Army(realm, 10)
+        army = Army(0, realm)
         
         increase = IncreaseArmy(realm, army)
         increase.execute()
         
-        self.assertEqual(army.size, 11)
+        self.assertEqual(army.size, 1)
         
 
 def get_tests():

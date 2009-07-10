@@ -11,7 +11,7 @@ class CanMoveArmyTest(unittest.TestCase):
 
     def test_can_move_army(self): 
         realm = Realm()    
-        army = Army(realm, 10)
+        army = Army(0, realm)
         province0 = Province(None, 1, 1)
         province0.add_army(army)
         
@@ -35,7 +35,7 @@ class CanMoveArmyTest(unittest.TestCase):
     
     def test_invalid_province(self):
         realm = Realm()    
-        army = Army(realm, 10)
+        army = Army(0, realm)
         province = Province(None, 1, 1)
         province.add_army(army)
         
@@ -43,7 +43,7 @@ class CanMoveArmyTest(unittest.TestCase):
     
     def test_invalid_army(self):
         realm = Realm()    
-        army = Army(realm, 10)
+        army = Army(0, realm)
         province = Province(None, 1, 1)
         
         self.assertRaises(AssertionError, can_move_army, realm, None, province)              
@@ -60,7 +60,7 @@ class CanMoveArmyTest(unittest.TestCase):
     def test_wrong_realm(self):
         realm0 = Realm()    
         realm1 = Realm()
-        army = Army(realm0, 10)
+        army = Army(0, realm0)
         province = Province(None, 1, 1)
         province.add_army(army)
         
@@ -68,7 +68,7 @@ class CanMoveArmyTest(unittest.TestCase):
     
     def test_not_neighbour(self):     
         realm = Realm()    
-        army = Army(realm, 10)
+        army = Army(0, realm)
         province = Province(None, 1, 1)
         province.add_army(army)
         
@@ -82,7 +82,7 @@ class MoveArmyTest(unittest.TestCase):
 
     def test_move(self):     
         realm = Realm()    
-        army = Army(realm, 10)
+        army = Army(0, realm)
         province0 = Province(None, 1, 1)
         province1 = Province(None, 1, 2)
         
