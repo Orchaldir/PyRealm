@@ -2,7 +2,7 @@ import pyglet
 import math
 
 
-from matrix import get_rotation
+from utility.matrix import get_rotation
 
 
 class MapView:

@@ -74,8 +74,8 @@ if __name__ == '__main__':
                 moved_army.action = MoveArmy(realm, moved_army, selection)
         elif isinstance(selection, Province):
             selected_province = selection
-            print('Province({0:d},{1:d}): Realm={2:s}'.format(selected_province.x, selected_province.y, 
-                selected_province.realm.name if selected_province.realm else 'None'))
+            print('Province({0:d},{1:d}): Realm={2:s} Armies={3:d}'.format(selected_province.x, selected_province.y, 
+                selected_province.realm.name if selected_province.realm else 'None', len(selected_province.armies)))
         elif isinstance(selection, Army):
             selected_army = selection
             print('Army: Id={0:d} Realm={1:s} Size={2:d}'.format(selected_army.id, selected_army.realm.name, selected_army.size))
