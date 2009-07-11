@@ -67,7 +67,7 @@ class World:
                 
                 for army in province.armies:
                     if army.realm not in realms:
-                        realms.append(army)
+                        realms.append(army.realm)
                 
                 if len(realms) > 1:
                     battle = Battle(province.armies[0], province.armies[1])

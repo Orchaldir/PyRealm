@@ -6,6 +6,7 @@ class Battle:
         assert army0, 'Invalid army!'
         assert army1, 'Invalid army!'
         assert army0 != army1, 'Same army!'
+        assert army0.realm != army1.realm, 'Same realm!'
         
         self.army0 = army0
         self.army1 = army1
